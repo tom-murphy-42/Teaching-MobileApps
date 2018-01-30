@@ -9,16 +9,14 @@ namespace P1_TMurphy_Calc
     [Activity(Label = "P1_TMurphy_Calc", MainLauncher = true, Icon = "@mipmap/icon")] //@mipmap/icon //@drawable/icon
     public class MainActivity : Activity
     {
-        //double outputValue = 0;
-        int count = 1;
         bool clear = true;
         bool allClear = true;
         bool containsDec = false;
-        string displayText = "0.000";
+        string displayText = "0";
         string prevOperand = null;
         string currOperand = null;
         int lastOp = 0;
-
+        decimal result = 0;
 
         protected override void OnCreate(Bundle savedInstanceState) //savedInstanceState //bundle
         {
@@ -30,32 +28,10 @@ namespace P1_TMurphy_Calc
             var gridView = FindViewById<GridView>(Resource.Id.gridView);
             gridView.Adapter = new ImageAdapter(this);
             gridView.ItemClick += GridView_ItemClick;
-
-
-            // Get our button from the layout resource,
-            // and attach an event to it
-            Button button = FindViewById<Button>(Resource.Id.calcButton);
-            // button.AfterTextChanged += CalculateInput;
-            // button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
-            // button.Click += delegate { CalculateInput; };
-            button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
-            button.AfterTextChanged += CalculateInput;
-            //button.Click += CalculateInput;
-
-            // Get our textfield from the layout resource, 
-            // so we can pull values from it
-
-            //TextView display = FindViewById<TextView>(Resource.Id.calcDisplay);
-            //display.Text = 
-
-
         }
 
         private void GridView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            //throw new NotImplementedException();
-            //Toast.MakeText(this, "Position: " + e.Position, ToastLength.Short).Show();
-
             TextView display = FindViewById<TextView>(Resource.Id.calcDisplay);
 
             if (e.Position == 0) // "ALL CLEAR"
@@ -68,7 +44,7 @@ namespace P1_TMurphy_Calc
                 lastOp = 0;
                 prevOperand = null;
                 currOperand = null;
-                //Toast.MakeText(this, "ALL CLEAR", ToastLength.Short).Show();
+                result = 0;
             }
             else if (e.Position == 1) // "CLEAR"
             {
@@ -77,11 +53,17 @@ namespace P1_TMurphy_Calc
                 clear = true;
                 containsDec = false;
                 currOperand = null;
-                //Toast.MakeText(this, "CLEAR", ToastLength.Short).Show();
             }
             else if (e.Position == 2) // "PERCENTAGE"
             {
-                Toast.MakeText(this, "PERCENTAGE", ToastLength.Short).Show();
+                result = Convert.ToDecimal(displayText) / 100;
+                displayText = result.ToString("0.00");
+                if (displayText.Substring(displayText.Length - 3) == ".00")
+                {
+                    displayText = displayText.Substring(0, displayText.Length - 3);
+                }
+                display.Text = displayText;
+                prevOperand = displayText;
             }
             else if (e.Position == 3) // "DIVISION"
             {
@@ -297,7 +279,20 @@ namespace P1_TMurphy_Calc
             }
             else if (e.Position == 16) // "POSITIVE / NEGATIVE"
             {
-                Toast.MakeText(this, "POSITIVE / NEGATIVE", ToastLength.Short).Show();
+                if(clear == true)
+                {
+                    //
+                }
+                else if(displayText[0] == '-') // is neg, set to pos
+                {
+                    displayText = displayText.Substring(1);
+                    display.Text = displayText;
+                }
+                else // is pos, set to neg
+                {
+                    displayText = "-" + displayText;
+                    display.Text = displayText;
+                }
             }
             else if (e.Position == 17) // 0
             {
@@ -312,8 +307,6 @@ namespace P1_TMurphy_Calc
                     displayText = displayText + "0";
                     display.Text = displayText;
                 }
-
-                //Toast.MakeText(this, "0", ToastLength.Short).Show();
             }
             else if (e.Position == 18) // "DECIMAL POINT"
             {
@@ -336,11 +329,7 @@ namespace P1_TMurphy_Calc
             else if (e.Position == 19) // "CALCULATE"
             {
                 currOperand = displayText;
-                Toast.MakeText(this, "Prev = " + prevOperand + ", Curr = " + currOperand, ToastLength.Short).Show();
-                prevOperand = currOperand;
-                //currOperand = result;
-
-                //Toast.MakeText(this, "CALCULATE", ToastLength.Short).Show();
+                CalculateResult();
             }
             else // Error
             {
@@ -349,60 +338,74 @@ namespace P1_TMurphy_Calc
             }
         }
 
-        //private void CalculateInput(object sender, Android.Text.AfterTextChangedEventArgs e)
-        private void CalculateInput(object sender, Android.Text.AfterTextChangedEventArgs e)
+        //
+        private void CalculateResult() //Decimal
         {
-            // throw new System.NotImplementedException();
+            decimal firstOprnd;
+            decimal secondOprnd;
+            Decimal.TryParse(prevOperand, out firstOprnd);
+            if(currOperand != null) // is second operand set? if so tryparse
+            {
+                Decimal.TryParse(currOperand, out secondOprnd);
+            }
+            else // second operand is not set, set equal to first operand
+            {
+                secondOprnd = firstOprnd;
+            }
+            TextView display = FindViewById<TextView>(Resource.Id.calcDisplay);
 
-            // https://forums.xamarin.com/discussion/71735/how-to-display-a-message-box-or-alert-message-in-c-xamarin-android
-            // Toast.MakeText(this.ApplicationContext, "Let's try to calc stuff..", ToastLength.Short).Show();
-            EditText inputText = FindViewById<EditText>(Resource.Id.inputTextBox);
-            //inputText.Text
-            //Toast.MakeText(this.ApplicationContext, "Let's try to calculate (" + inputText.Text + ")", ToastLength.Short).Show();
-            int firstOperand;
-            int secondOperand;
-            if (inputText.Text.Contains(" ") || inputText.Text.Contains("."))
+            if (lastOp == 0) // "No operator has been set yet"
             {
-                //Console.WriteLine("Please removes any spaces or decimals from query.");
-                Toast.MakeText(this.ApplicationContext, "Please removes any spaces or decimals from query.", ToastLength.Short).Show();
+                Toast.MakeText(this.ApplicationContext, "No operator has been set yet.", ToastLength.Short).Show();
             }
-            else if (inputText.Text.Contains("+"))
+            else if (lastOp == 1) // "Division"
             {
-                int opIndex = inputText.Text.IndexOf(@"+");
-                Int32.TryParse(inputText.Text.Substring(0, opIndex), out firstOperand);
-                Int32.TryParse(inputText.Text.Substring((opIndex + 1), (inputText.Text.Length - opIndex - 1)), out secondOperand);
-                //Console.WriteLine(inputText.Text + " = " + (firstOperand + secondOperand));
-                Toast.MakeText(this.ApplicationContext, inputText.Text + " = " + (firstOperand + secondOperand), ToastLength.Short).Show();
+                result = firstOprnd / secondOprnd;
+                displayText = result.ToString("0.00");
+                if(displayText.Substring(displayText.Length - 3) == ".00")
+                {
+                    displayText = displayText.Substring(0, displayText.Length - 3);
+                }
+                display.Text = displayText;
+                prevOperand = displayText;
             }
-            else if (inputText.Text.Contains("-"))
+            else if (lastOp == 2) // "Multiplication"
             {
-                int opIndex = inputText.Text.IndexOf(@"-");
-                Int32.TryParse(inputText.Text.Substring(0, opIndex), out firstOperand);
-                Int32.TryParse(inputText.Text.Substring((opIndex + 1), (inputText.Text.Length - opIndex - 1)), out secondOperand);
-                //Console.WriteLine(inputText.Text + " = " + (firstOperand - secondOperand));
-                Toast.MakeText(this.ApplicationContext, inputText.Text + " = " + (firstOperand - secondOperand), ToastLength.Short).Show();
+                result = firstOprnd * secondOprnd;
+                displayText = result.ToString("0.00");
+                if (displayText.Substring(displayText.Length - 3) == ".00")
+                {
+                    displayText = displayText.Substring(0, displayText.Length - 3);
+                }
+                display.Text = displayText;
+                prevOperand = displayText;
             }
-            else if (inputText.Text.Contains("*"))
+            else if (lastOp == 3) // "Subraction"
             {
-                int opIndex = inputText.Text.IndexOf(@"*");
-                Int32.TryParse(inputText.Text.Substring(0, opIndex), out firstOperand);
-                Int32.TryParse(inputText.Text.Substring((opIndex + 1), (inputText.Text.Length - opIndex - 1)), out secondOperand);
-                //Console.WriteLine(inputText.Text + " = " + (firstOperand * secondOperand));
-                Toast.MakeText(this.ApplicationContext, inputText.Text + " = " + (firstOperand * secondOperand), ToastLength.Short).Show();
+                result = firstOprnd - secondOprnd;
+                displayText = result.ToString("0.00");
+                if (displayText.Substring(displayText.Length - 3) == ".00")
+                {
+                    displayText = displayText.Substring(0, displayText.Length - 3);
+                }
+                display.Text = displayText;
+                prevOperand = displayText;
             }
-            else if (inputText.Text.Contains("/"))
+            else if (lastOp == 4) // "Addition"
             {
-                int opIndex = inputText.Text.IndexOf(@"/");
-                Int32.TryParse(inputText.Text.Substring(0, opIndex), out firstOperand);
-                Int32.TryParse(inputText.Text.Substring((opIndex + 1), (inputText.Text.Length - opIndex - 1)), out secondOperand);
-                //Console.WriteLine(inputText.Text + " = " + (firstOperand / secondOperand));
-                Toast.MakeText(this.ApplicationContext, inputText.Text + " = " + (firstOperand / secondOperand), ToastLength.Short).Show();
+                result = firstOprnd + secondOprnd;
+                displayText = result.ToString("0.00");
+                if (displayText.Substring(displayText.Length - 3) == ".00")
+                {
+                    displayText = displayText.Substring(0, displayText.Length - 3);
+                }
+                display.Text = displayText;
+                prevOperand = displayText;
             }
-            else
+            else // Error
             {
-                // None of the folllowing operators were found: {+, -, *, /}
-                //Console.WriteLine("None of the accepted operators were found: + - * /");
-                Toast.MakeText(this.ApplicationContext, "None of the accepted operators were found: + - * /", ToastLength.Short).Show();
+                // ...
+                Toast.MakeText(this.ApplicationContext, "AN ERROR HAS OCCURED.", ToastLength.Short).Show();
             }
         }
     }

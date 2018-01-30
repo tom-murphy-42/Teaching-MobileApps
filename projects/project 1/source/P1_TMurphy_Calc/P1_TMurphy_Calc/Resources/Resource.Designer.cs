@@ -117,17 +117,11 @@ namespace P1_TMurphy_Calc
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060002
-			public const int calcButton = 2131099650;
-			
 			// aapt resource value: 0x7f060000
 			public const int calcDisplay = 2131099648;
 			
-			// aapt resource value: 0x7f060003
-			public const int gridView = 2131099651;
-			
 			// aapt resource value: 0x7f060001
-			public const int inputTextBox = 2131099649;
+			public const int gridView = 2131099649;
 			
 			static Id()
 			{
@@ -176,9 +170,6 @@ namespace P1_TMurphy_Calc
 			
 			// aapt resource value: 0x7f050000
 			public const int app_name = 2131034112;
-			
-			// aapt resource value: 0x7f050001
-			public const int calcButtonStr = 2131034113;
 			
 			static String()
 			{

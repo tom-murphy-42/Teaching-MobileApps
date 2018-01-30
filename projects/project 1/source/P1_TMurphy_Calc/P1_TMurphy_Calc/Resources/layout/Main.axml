@@ -15,15 +15,6 @@
         android:gravity="center"
         android:textAlignment="gravity"
         android:textSize="48dp" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/inputTextBox" />
-    <Button
-        android:id="@+id/calcButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/calcButtonStr" />
     <GridView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
