@@ -1,8 +1,8 @@
-# APPLICATION NAME
-Complete description and overview.  This is where you describe in a brief, yet clear and concise, manner what your product should do and how you expect it should be used.  Why did you write this application?  What purpose does it serve?  It's okay if the only purpose is to meet the homework requirement (but try to move bedyond just that - be creative!).
+# P3_TMurphy_GoogleVisionAPI
+This app should take photos, save them to your gallery in an album called 'GoogleVisionApp', display them to the screen, and then send them to Google's Vision to analyze and label. These labels should then be displayed via a series of 'toasts'. I wrote this application to learn more about interacting with a web service, in this case specifically Google's Vision API. It serves as a catalyst for that learning process.
 
 ## System Design 
-This is where you specify all of the system's requirements.  This section should accurately portray the complete operation of your application.  Provide scenarios, use cases, system requirements, and diagrams/screenshots of the system.
+This app requires access to your camera, and the ability to read and write to external memory.
 
 ## Usage
-This is where you explain how to use your application
+To use this app, open it. Click on the 'OPEN CAMERA' button. Take a photo. Hit 'RETRY' to take another photo or hit 'OK' when you're happy with your photo. This will (attempt?) to send the photo to Google Vision's API to analyze and return with labels, which will then be shown on the screen in a series of "toasts". (Expect a 15+ second delay, depending on your connection and current compression rate.) Currently, this app is mostly just useful for roasting your friends by allowing Google to label them as 'furniture', 'lifting accessories', or 'darkness'.
