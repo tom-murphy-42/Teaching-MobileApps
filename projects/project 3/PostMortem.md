@@ -1,11 +1,8 @@
 # Post Mortem
-Use this page to discuss what you learned from completing this assignment.  It should be completed **after** you finish coding your assignment. Your post mortem must be at least 500 words long.  Note that the focus of the paper should be on your reflection, not on structure (e.g. introductory paragraph, conclusion, etc.).  The essay is graded on content (i.e. it shows deep though) rather than syntax (e.g. spelling) and structure.  
+One mistake I made on this project was spending some of my rather limited time working instead on cleaning up Project 2, instead of getting started on Project 3. This, of course, made P3 all that much more difficult. I also encountering difficulty getting documentation for Xamarin-based Google API interactions. This may have been easier in Java, via Android Studio. I was able to fetch labels with low-res images, then had trouble once I implemented the code to take higher-res images. I started fooling around with adjusting the compression rates, as I figured that the slow response times were because of a slow wifi connection and uploading hi-res images to Google. This app still needs a lot of work / revamping, although I'm not sure what direction I want to take it in. I would say the most difficult and frustrating part was trying to find the correct documentation for handling Google API calls while working in C#, not Java. I did encounter some errors when implmenting the changes that you uploaded to allow us to take high-res photos; but in hindsight it wasn't too difficult to figure those out. Once I got it "working", that is to say to the point it's at now, my friends and I had a blast with it though. We'd take pictures of each other and then let Google roast us. (My friend Troy is now a "lifting accessory" and I'm a "hand model".) 
 
-Below are some prompts that can be used to get you thinking.  Feel free to use these or to make up your own.
-* Describe a particular struggle that you overcame when working on this programming assignment.
-* Conversely, describe an issue with your assignment that you were unable to resolve.
-* Provide advice to a future student on how he or she might succeed on this assignment.
-* Describe the most fun aspect of the assignment.
-* Describe the most challenging aspect of the assignment.
-* Describe the most difficult aspect of the assignment to understand.
-* Provide any suggestions for improving the assignment in the future.
+Suggestions for future students: Work together on this one. I think that students working on this project together and learning from each other will probably get a lot farther than those going at it alone. I ended finding a small snippet of code on another student's repo (zeefree's) that allowed me to actually get the labels out of the apiResult. (Whereas before I was having a lot of trouble with just that.)
+
+Suggestions for the future: I'd say come up with a list of working commands for interacting with Google (Vision) API calls. Sort of a tips & tricks page.
+
+I think I'm definitely going to have to come back and revisit this assignment. I am nowhere near happy with it at the moment. After I do, I'll edit / append to this post mortem with more valuable input.
