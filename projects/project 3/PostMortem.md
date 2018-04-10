@@ -6,3 +6,7 @@ Suggestions for future students: Work together on this one. I think that student
 Suggestions for the future: I'd say come up with a list of working commands for interacting with Google (Vision) API calls. Sort of a tips & tricks page.
 
 I think I'm definitely going to have to come back and revisit this assignment. I am nowhere near happy with it at the moment. After I do, I'll edit / append to this post mortem with more valuable input.
+
+---
+
+Addendum: I had planned on adding some new features to this, mostly revolving around gamification. However, all I succeeded in was earning myself a headache / lot of stress. I've come to realise that Android Studio provides for a much more seamless/painless Android development environment and experience than Visual Studio does, at least in my limited experience.
